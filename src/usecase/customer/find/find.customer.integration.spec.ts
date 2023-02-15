@@ -29,10 +29,10 @@ describe("Test find customer use case", () =>{
         const customerReposity = new CustomerRepository();
         const usecase = new FindCustomerUseCase(customerReposity)
 
-        const costumer = new Customer("123","John");
+        const customer = new Customer("123","John");
         const address = new Address("Street",123, "Zip","City");
-        costumer.changeAddress(address);
-        await customerReposity.create(costumer);
+        customer.changeAddress(address);
+        await customerReposity.create(customer);
 
         const input = {
             id:"123",
