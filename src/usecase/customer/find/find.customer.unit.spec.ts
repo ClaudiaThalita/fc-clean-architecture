@@ -12,11 +12,11 @@ customer.changeAddress(address);
 const MockRepository =  () =>{
     return {
         find: jest.fn().mockReturnValue(Promise.resolve(customer)),
-        findALl: jest.fn(),
+        findAll: jest.fn(),
         create: jest.fn(),
         update: jest.fn(),
-    }
-}
+    };
+};
 
 
 describe("Unit Test find customer use case", () =>{
@@ -24,8 +24,8 @@ describe("Unit Test find customer use case", () =>{
 
 
     it("should find a customer", async ()=>{
-        const customerReposity = new CustomerRepository();
-        const usecase = new FindCustomerUseCase(customerReposity)
+        const customerRepository = MockRepository();
+        const usecase = new FindCustomerUseCase(customerRepository);
 
 
         const input = {
@@ -46,5 +46,23 @@ describe("Unit Test find customer use case", () =>{
         const result = usecase.execute(input);
 
         expect(result).toEqual(output);
+    });
+
+    it("should not find a customer", async()=>{
+        const customerRepository = MockRepository();
+        customerRepository.find.mockImplementation(()=>{
+            throw new Error("Customer not found");
+        
+        });
+        const usecase = new FindCustomerUseCase(customerRepository);
+
+
+        const input = {
+            id:"123",
+        };
+
+        expect(()=>{
+            return usecase.execute(input);
+        }).rejects.toThrow("Customer not found");
     });
 });
