@@ -61,7 +61,7 @@ describe("Unit Test find customer use case", () =>{
             id:"123",
         };
 
-        expect(()=>{
+        expect(() => {
             return usecase.execute(input);
         }).rejects.toThrow("Customer not found");
     });
